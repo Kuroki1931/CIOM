@@ -21,7 +21,7 @@ from transformer.bc_transformer_nearest.mask_config import MASK_CONFIG
 from transformer.bc_transformer_nearest.model import make_transformers
 from transformer.bc_transformer_nearest.utils import (
     NormalTanhDistribution, ReplayBuffer, TrainingState, Transition,
-    evaluate_on_env, get_d4rl_normalized_score, save_params)
+    evaluate_on_env, save_params)
 from transformer.pmap import (bcast_local_devices, is_replicated,
                                        synchronize_hosts)
 
@@ -372,7 +372,6 @@ def train(args):
         eval_avg_reward = results['eval/avg_reward']
         eval_avg_ep_len = results['eval/avg_ep_len']
         eval_avg_last_iou = results['eval/avg_last_iou']
-        # eval_d4rl_score = get_d4rl_normalized_score(results['eval/avg_reward'], env_name) * 100
 
         mean_action_loss = np.mean(log_action_losses)
         time_elapsed = str(datetime.now().replace(microsecond=0) - start_time)

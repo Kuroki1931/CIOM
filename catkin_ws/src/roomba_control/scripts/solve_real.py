@@ -35,8 +35,8 @@ from PIL import Image
 sys.path.append(os.path.join(os.path.dirname(__file__), '/root/roomba_hack/pbm/bc/network'))
 
 from transformer.bc_transformer_nearest.model import make_transformers
-from transformer.bc_transformer_nearest.utils import ReplayBuffer, NormalTanhDistribution, TrainingState, Transition
-from transformer.bc_transformer_nearest.utils import get_d4rl_normalized_score, save_params, load_params
+from transformer.bc_transformer_nearest.utils import ReplayBuffer, TrainingState, Transition
+from transformer.bc_transformer_nearest.utils import save_params, load_params
 from transformer.bc_transformer_nearest.mask_config import MASK_CONFIG
 from transformer.pmap import bcast_local_devices, synchronize_hosts, is_replicated
 

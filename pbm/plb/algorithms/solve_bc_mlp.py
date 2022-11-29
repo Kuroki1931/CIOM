@@ -17,7 +17,6 @@ from transformer.bc_mlp.model import make_policy_networks
 from transformer.bc_mlp.utils import (NormalTanhDistribution,
                                                ReplayBuffer, TrainingState,
                                                Transition, evaluate_on_env,
-                                               get_d4rl_normalized_score,
                                                load_params, save_params)
 from transformer.pmap import (bcast_local_devices, is_replicated,
                                        synchronize_hosts)

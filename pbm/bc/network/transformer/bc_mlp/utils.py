@@ -14,7 +14,6 @@ import jax.numpy as jnp
 import numpy as np
 
 from typing import Any
-from transformer.d4rl_infos import REF_MIN_SCORE, REF_MAX_SCORE, D4RL_DATASET_STATS
 
 from PIL import Image
 
@@ -153,24 +152,6 @@ class NormalTanhDistribution(ParametricDistribution):
     def deterministic(self, parameters):
         loc, _ = jnp.split(parameters, 2, axis=-1)
         return self._postprocessor.forward(loc)
-
-
-def discount_cumsum(x, gamma):
-    disc_cumsum = np.zeros_like(x)
-    disc_cumsum[-1] = x[-1]
-    for t in reversed(range(x.shape[0]-1)):
-        disc_cumsum[t] = x[t] + gamma * disc_cumsum[t+1]
-    return disc_cumsum
-
-
-def get_d4rl_normalized_score(score, env_name):
-    env_key = env_name.split('-')[0].lower()
-    assert env_key in REF_MAX_SCORE, f'no reference score for {env_key} env to calculate d4rl score'
-    return (score - REF_MIN_SCORE[env_key]) / (REF_MAX_SCORE[env_key] - REF_MIN_SCORE[env_key])
-
-
-def get_d4rl_dataset_stats(env_d4rl_name):
-    return D4RL_DATASET_STATS[env_d4rl_name]
 
 
 def evaluate_on_env(policy_model,

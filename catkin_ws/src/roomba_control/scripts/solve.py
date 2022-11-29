@@ -22,13 +22,13 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from nav_msgs.msg import Odometry
 from PIL import Image
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '/root/roomba_hack/pbm/bc/jax_decision_transformer'))
-from decision_transformer.bc_transformer_nearest.mask_config import MASK_CONFIG
-from decision_transformer.bc_transformer_nearest.model import make_transformers
-from decision_transformer.bc_transformer_nearest.utils import (
+sys.path.append(os.path.join(os.path.dirname(__file__), '/root/roomba_hack/pbm/bc/network'))
+from transformer.bc_transformer_nearest.mask_config import MASK_CONFIG
+from transformer.bc_transformer_nearest.model import make_transformers
+from transformer.bc_transformer_nearest.utils import (
     NormalTanhDistribution, ReplayBuffer, TrainingState, Transition,
-    evaluate_on_env, get_d4rl_normalized_score, load_params, save_params)
-from decision_transformer.pmap import (bcast_local_devices, is_replicated,
+    evaluate_on_env, load_params, save_params)
+from transformer.pmap import (bcast_local_devices, is_replicated,
                                        synchronize_hosts)
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '/root/roomba_hack/pbm'))
@@ -538,7 +538,7 @@ def get_args():
     parser.add_argument("--num_updates_per_iter", type=int, default=500)
     parser.add_argument("--policy_save_iters", type=int, default=10)
     parser.add_argument("--rm_normalization", action='store_true', help='Turn off input normalization')
-    parser.add_argument("--policy_params_path", type=str, default='/root/roomba_hack/pbm/bc/jax_decision_transformer/dt_runs/bc_transformer_nearest_delay_0_multi_bc_rope_6/seed_0/22-10-11-13-09-42/model_3000.pt')
+    parser.add_argument("--policy_params_path", type=str, default='/root/roomba_hack/pbm/bc/network/dt_runs/bc_transformer_nearest_delay_0_multi_bc_rope_6/seed_0/22-10-11-13-09-42/model_3000.pt')
     parser.add_argument("--max_devices_per_host", type=int, default=None)
     parser.add_argument('--base_data_size', type=int, default=102)
     parser.add_argument('--select_layer', type=int, default=2)
@@ -608,7 +608,7 @@ if __name__=='__main__':
     lr = args.lr                            # learning rate
 
     # load data from this file
-    dataset_path = f'/root/roomba_hack/pbm/bc/jax_decision_transformer/data/bc_data_all.pkl'
+    dataset_path = f'/root/roomba_hack/pbm/bc/network/data/bc_data_all.pkl'
 
     start_time = datetime.now().replace(microsecond=0)
     start_time_str = start_time.strftime("%y-%m-%d-%H-%M-%S")
@@ -634,7 +634,7 @@ if __name__=='__main__':
     mask_dim = primitive_num * 2
     trans_dim = state_dim + act_dim + mask_dim
     
-    with open('/root/roomba_hack/pbm/bc/jax_decision_transformer/data/all_data_delay_0.pickle', 'rb') as f: 
+    with open('/root/roomba_hack/pbm/bc/network/data/all_data_delay_0.pickle', 'rb') as f: 
         replay_buffer_data = pickle.load(f)
     
     # used for input normalization
