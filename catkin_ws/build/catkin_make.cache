@@ -1,0 +1,2 @@
+navigation_tutorial:roomba/roomba_bringup:roomba/roomba_description:roomba/roomba_gazebo:roomba/roomba_teleop:three-dimensions_tutorial
+-DCATKIN_DEVEL_PREFIX=/root/roomba_hack/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/root/roomba_hack/catkin_ws/install -G Unix Makefiles

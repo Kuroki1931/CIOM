@@ -1,0 +1,8 @@
+prefix=/root/roomba_hack/catkin_ws/devel
+
+Name: navigation_tutorial
+Description: Description of navigation_tutorial
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

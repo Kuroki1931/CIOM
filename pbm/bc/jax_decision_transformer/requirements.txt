@@ -1,0 +1,5 @@
+jax[cuda111]==0.2.21
+flax==0.3.6
+optax==0.0.9
+git+https://github.com/rail-berkeley/d4rl@master#egg=d4rl
+git+https://github.com/rlworkgroup/metaworld.git@master#egg=metaworld

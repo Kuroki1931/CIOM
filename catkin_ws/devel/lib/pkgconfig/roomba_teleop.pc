@@ -1,0 +1,8 @@
+prefix=/root/roomba_hack/catkin_ws/devel
+
+Name: roomba_teleop
+Description: Description of roomba_teleop
+Version: 0.0.0
+Cflags: -I/root/roomba_hack/catkin_ws/src/roomba/roomba_teleop/include
+Libs: -L${prefix}/lib 
+Requires: geometry_msgs roscpp rospy sensor_msgs

@@ -1,0 +1,8 @@
+prefix=/root/roomba_hack/catkin_ws/devel
+
+Name: roomba_gazebo
+Description: Description of roomba_gazebo
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

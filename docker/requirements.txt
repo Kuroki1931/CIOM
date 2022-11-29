@@ -1,0 +1,12 @@
+gym
+matplotlib
+pybullet
+pyyaml
+scipy
+numpy
+torch
+opencv-contrib-python
+tqdm
+taichi==0.7.26
+tensorboard
+yacs

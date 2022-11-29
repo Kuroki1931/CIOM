@@ -1,0 +1,76 @@
+SIMULATOR:
+  yield_stress: 30.
+  ground_friction: 1.3
+SHAPES:
+  - shape: box
+    width: (0.09743589743589744, 0.1, 0.4851282051282051)
+    init_pos: (0.50488832, 0.05, 0.5174179)
+    color: (((0 << 8) + 150) << 8)
+PRIMITIVES:
+  - shape: Cylinder
+    h: 0.08461538461538462
+    r: 0.041025641025641026
+    init_pos: (0.25107214, 0.0205, 0.7177388)
+    color: (0.8, 0.8, 0.8)
+    friction: 0.01
+    action:
+      dim: 3
+      scale: (0.0025, 0.000001, 0.0025)
+  - shape: Cylinder
+    h: 0.08461538461538462
+    r: 0.041025641025641026
+    init_pos: (0.45647174, 0.0205, 0.7037037)
+    color: (0.8, 0.8, 0.8)
+    friction: 0.01
+    action:
+      dim: 3
+      scale: (0.0025, 0.000001, 0.0025)
+  - shape: Cylinder
+    h: 0.125
+    r: 0.2
+    init_pos: (0.36647174, 0.0205, 0.7037037)
+    color: (0.3, 0.3, 0.3)
+    friction: 0.01
+
+ENV:
+  loss:
+    target_path: envs/data/two_roomba_wrap_rope-v1.npy
+RENDERER:
+  camera_pos: (0.5, 2.5, 2.)
+  camera_rot: (1.0, 0.)
+VARIANTS:
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_wrap_rope-v1.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_wrap_rope-v2.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_wrap_rope-v3.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_wrap_rope-v4.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_wrap_rope-v5.npy

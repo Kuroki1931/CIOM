@@ -1,0 +1,809 @@
+SIMULATOR:
+  yield_stress: 30.
+  ground_friction: 1.5
+SHAPES:
+  - shape: box
+    width: (0.09743589743589744, 0.1, 0.4851282051282051)
+    init_pos: (0.50488832, 0.05, 0.5174179)
+    color: (((0 << 8) + 150) << 8)
+PRIMITIVES:
+  - shape: Cylinder
+    h: 0.08461538461538462
+    r: 0.041025641025641026
+    init_pos: (0.25107214, 0.0205, 0.7177388)
+    color: (0.8, 0.8, 0.8)
+    friction: 0.1
+    action:
+      dim: 3
+      scale: (0.0025, 0.000001, 0.0025)
+      
+  - shape: Cylinder
+    h: 0.08461538461538462
+    r: 0.041025641025641026
+    init_pos: (0.45647174, 0.0205, 0.7037037)
+    color: (0.8, 0.8, 0.8)
+    friction: 0.1
+    action:
+      dim: 3
+      scale: (0.0025, 0.000001, 0.0025)
+      
+
+
+ENV:
+  loss:
+    target_path: envs/data/two_roomba_deform_one_rope-v1.npy
+RENDERER:
+  camera_pos: (0.5, 2.5, 2.)
+  camera_rot: (1.0, 0.)
+VARIANTS:
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v1.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v2.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v3.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v4.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v5.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v6.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v7.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v8.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v9.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v10.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v11.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v12.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v13.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v14.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v15.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v16.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v17.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v18.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v19.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v20.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v21.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v22.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v23.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v24.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v25.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v26.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v27.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v28.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v29.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v30.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v31.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v32.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v33.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v34.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v35.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v36.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v37.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v38.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v39.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v40.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v41.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v42.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v43.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v44.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v45.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v46.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v47.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v48.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v49.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v50.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v51.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v52.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v53.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v54.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v55.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v56.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v57.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v58.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v59.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v60.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v61.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v62.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v63.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v64.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v65.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v66.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v67.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v68.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v69.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v70.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v71.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v72.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v73.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v74.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v75.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v76.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v77.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v78.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v79.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v80.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v81.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v82.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v83.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v84.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v85.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v86.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v87.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v88.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v89.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v90.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v91.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v92.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v93.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v94.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v95.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v96.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v97.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v98.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v99.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v100.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v101.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v102.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v103.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v104.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v105.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v106.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v107.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v108.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v199.npy
+  - PRIMITIVES:
+      -
+      -
+      -
+    ENV:
+      loss:
+        target_path: envs/assets/two_roomba_deform_one_rope-v110.npy
+  

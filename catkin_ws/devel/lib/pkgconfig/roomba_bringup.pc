@@ -1,0 +1,8 @@
+prefix=/root/roomba_hack/catkin_ws/devel
+
+Name: roomba_bringup
+Description: Description of roomba_bringup
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

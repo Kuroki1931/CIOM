@@ -1,0 +1,8 @@
+prefix=/root/roomba_hack/catkin_ws/devel
+
+Name: roomba_description
+Description: Description of roomba_description
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
