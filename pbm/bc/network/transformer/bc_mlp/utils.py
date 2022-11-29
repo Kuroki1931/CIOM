@@ -14,7 +14,7 @@ import jax.numpy as jnp
 import numpy as np
 
 from typing import Any
-from decision_transformer.d4rl_infos import REF_MIN_SCORE, REF_MAX_SCORE, D4RL_DATASET_STATS
+from transformer.d4rl_infos import REF_MIN_SCORE, REF_MAX_SCORE, D4RL_DATASET_STATS
 
 from PIL import Image
 
@@ -173,26 +173,25 @@ def get_d4rl_dataset_stats(env_d4rl_name):
     return D4RL_DATASET_STATS[env_d4rl_name]
 
 
-def evaluate_on_env_random_delay(policy_model,
-                                policy_params,
-                                distribution,
-                                env,
-                                key=None,
-                                num_eval_ep=10,
-                                max_test_ep_len=100,
-                                state_mean=None,
-                                state_std=None,
-                                args=None,
-                                log_dir=None,
-                                i_train_iter=0,
-                                giff_save_iters=1,
-                                method='bc_transformer_mask_delay',
-                                save_gif=False,
-                                real_demo=False,
-                                total_eval_step=None,
-                                init_iou=None):
+def evaluate_on_env(policy_model,
+                    policy_params,
+                    distribution,
+                    env,
+                    key=None,
+                    num_eval_ep=10,
+                    max_test_ep_len=100,
+                    state_mean=None,
+                    state_std=None,
+                    args=None,
+                    log_dir=None,
+                    i_train_iter=0,
+                    giff_save_iters=3,
+                    method='bc',
+                    render=False,
+                    save_gif=False,
+                    task_name="rope"):
 
-    attn_weights_list = []
+    
     policy_params = jax.tree_map(lambda x: x[0], policy_params)
     policy_model_apply = jax.jit(policy_model.apply)
 
@@ -201,9 +200,8 @@ def evaluate_on_env_random_delay(policy_model,
     total_timesteps = 0
 
     primitive_num = int(env.action_space.shape[0]/3)
-    nearest_primitive_pos = 3
-    state_dim = args.base_data_size*3*2+nearest_primitive_pos+args.base_data_size*3
-
+    state_dim = (args.base_data_size*3*2+primitive_num*3)*primitive_num+args.base_data_size*3
+ 
     if state_mean is None:
         state_mean = jnp.zeros((state_dim,))
     else:
@@ -218,72 +216,57 @@ def evaluate_on_env_random_delay(policy_model,
     
     num_test_loop = 0
     total_success = 0
-
     for _, key_i in enumerate(jax.random.split(_key, num=num_eval_ep)):
         # init episode
         num_test_loop += 1
         state = env.reset()
-        if real_demo:
-            env.taichi_env.loss.init_iou = init_iou
-
-        ## change observation
-        randam_sample_range = args.delay_time
-        delay_data_base = jnp.zeros((randam_sample_range, primitive_num, state_dim))
-        state, delay_data_base, delay_roomba_pos, mask = organaize_state_random_delay(state, env, args, primitive_num, state_mean, state_std, delay_data_base)
+        
+        goal_state = env.get_goal_obs(args)
+        state = organaize_state(state, goal_state, primitive_num, state_mean, state_std)
 
         running_reward = 0
         sum_last_iou = 0
-        
-        loss_info = env.compute_loss()
-        last_iou = loss_info['incremental_iou']
-        if (real_demo) & (last_iou > 0.75):
-            total_success += 1
-            print('real_demo success!')
-            break
 
         imgs = []
         actions_list = []
         for t in range(max_test_ep_len):
+
             total_timesteps += 1
-            
-            act, attn_weights = policy_model.apply(policy_params, state, mask)
-            attn_weights_list.append(attn_weights)
-            act = jnp.tanh(act[:, :primitive_num*2]).reshape(-1)
-            
+            act = jnp.tanh(policy_model.apply(policy_params, state))
+        
             for j in range(int(len(act)/2)):
                 act = np.insert(act, j*3+1, 0)
             actions_list.append(act)
             state, running_reward, done, loss_info = env.step(np.array(act))
-            state, delay_data_base, delay_roomba_pos, mask = organaize_state_random_delay(state, env, args, primitive_num, state_mean, state_std, delay_data_base, delay_roomba_pos, t+1)
+            state = organaize_state(state, goal_state, primitive_num, state_mean, state_std)
 
             total_reward += running_reward
             last_iou = loss_info['incremental_iou']
            
             # save_gif.
-            if (save_gif) & (i_train_iter % giff_save_iters == 0 and num_test_loop == 1) & ((t+1)%1000==0 or t == 0):
+            if ((save_gif and num_test_loop == 1) | (i_train_iter % giff_save_iters == 0 and num_test_loop == 1)) & ((t+1)%5==0 or t == 0):
                 print(f"Saving gif at {t} steps")
                 imgs.append(Image.fromarray(env.render(mode='rgb_array')))
-                # pass
-            
-            if (not real_demo) & (last_iou > 0.75):
+            if render:
+                env.render()
+            if last_iou > 0.75:
                 total_success += 1
                 break
-
         sum_last_iou += last_iou
 
-        if (save_gif) & (i_train_iter % giff_save_iters == 0 and num_test_loop == 1):
-            # imgs[0].save(f"{log_dir}/{args.env_name}_{last_iou}_{t}.gif", save_all=True, append_images=imgs[1:], loop=0)
+        if (save_gif and num_test_loop == 1) | (i_train_iter % giff_save_iters == 0 and num_test_loop == 1):
+            imgs[0].save(f"{log_dir}/{args.env_name}_{last_iou}_{i_train_iter}_{t}.gif", save_all=True, append_images=imgs[1:], loop=0)
             with open(f'{log_dir}/iou_{args.env_name}_{last_iou}_{i_train_iter}_{t}.txt', 'w') as f:
                 f.write(str(last_iou))
             print("Saved!!")
-            # pass
 
+        
     results['eval/avg_reward'] = total_reward / num_eval_ep
-    results['eval/avg_success'] = total_success / num_test_loop
+    results['eval/avg_success'] = total_success / num_eval_ep
     results['eval/avg_ep_len'] = total_timesteps / num_eval_ep
-    results['eval/avg_last_iou'] = sum_last_iou / num_test_loop
+    results['eval/avg_last_iou'] = sum_last_iou / num_eval_ep
 
-    return results, np.array(actions_list), attn_weights_list, imgs
+    return results, np.array(actions_list)
 
 
 @flax.struct.dataclass
@@ -297,7 +280,6 @@ class Transition:
     """Contains data for contextual-BC training step."""
     s_t: jnp.ndarray
     a_t: jnp.ndarray
-    m_t: jnp.ndarray
 
 
 @flax.struct.dataclass
@@ -335,9 +317,8 @@ def load_params(path: str) -> Any:
   return pickle.loads(buf)
 
 
-def organaize_state_random_delay(state, env, args, primitive_num, state_mean, state_std, delay_data_base, delay_roomba_pos=None, t=0):
+def organaize_state(state, goal_state, primitive_num, state_mean, state_std):
     ## change observation
-    goal_state = env.get_goal_obs(args)
     seg_size = goal_state.shape[0]
     step_size = int((seg_size/3) // 100)
     goal_state = goal_state.reshape(-1, 3)[::step_size, :]
@@ -347,29 +328,20 @@ def organaize_state_random_delay(state, env, args, primitive_num, state_mean, st
     obs_reshape = state[:unit_length*6].reshape(-1, 3)
     rope_xzy = obs_reshape[::2, :]
     obs_primitives = state[unit_length*6:]
-
     # primitives separate to primitive
     primitive_xzy_list = []
     for i in range(int(obs_primitives.shape[0]/7)):
         primitive_xzy = obs_primitives[i*7:(i+1)*7][:3]
         primitive_xzy_list.append(primitive_xzy)
     primitives_xzy = np.concatenate(primitive_xzy_list)
-    if t:
-        delay_roomba_pos = np.concatenate([delay_roomba_pos, primitives_xzy[None, :]], axis=0)
-        primitives_xzy_5_delay = delay_roomba_pos[t, :]
-    else:        
-        delay_roomba_pos = np.repeat(primitives_xzy[None, :], args.delay_time, axis=0)
-        delay_roomba_pos = np.concatenate([delay_roomba_pos, primitives_xzy[None, :]], axis=0)
-        primitives_xzy_5_delay = delay_roomba_pos[0, :]
-
+    
     obs_list = []
     # primitive to rope, goal, primitive
     for i in range(int(primitive_num)):
         primitive_xzy = primitives_xzy[i*3:(i+1)*3]
         primitive_to_rope = (rope_xzy - primitive_xzy).reshape(-1)
         primitive_to_goal = (goal_state - primitive_xzy).reshape(-1)
-        primitive_to_primitive = (primitives_xzy_5_delay - np.tile(primitive_xzy,(primitive_num)))
-        primitive_to_primitive[i*3:(i+1)*3] = 0
+        primitive_to_primitive = (primitives_xzy - np.tile(primitive_xzy,(primitive_num)))
         obs_list.append(primitive_to_rope)
         obs_list.append(primitive_to_goal)
         obs_list.append(primitive_to_primitive)
@@ -378,51 +350,5 @@ def organaize_state_random_delay(state, env, args, primitive_num, state_mean, st
     rope_to_goal = (goal_state - rope_xzy).reshape(-1)
     obs_list.append(rope_to_goal)
     state = np.concatenate(obs_list)
-    
-    # order obs, create mask
-    trans_data_list = []
-    batch_size = 1
-    chunk_size = args.base_data_size*3*2+primitive_num*3
-    mask = jnp.zeros((1, primitive_num*2, primitive_num*2))
-    mask_myself_base = jnp.identity(primitive_num*2)
-    mask_myself = mask_myself_base.at[:, primitive_num:].set(0)
-    mask = jnp.where(mask_myself, 1, mask)
-    big_pos = jnp.finfo(jnp.float32).max
-    dist_mask_list = []
-    for i in range(primitive_num):
-        primitive_info = state[None, None, i*chunk_size:(i+1)*chunk_size]
-        primitive_obs_info = primitive_info[:, :, :args.base_data_size*3*2]
-        primitive_primitive_info = primitive_info[:, :, args.base_data_size*3*2:args.base_data_size*3*2+primitive_num*3].reshape(primitive_info.shape[0], -1, 3)
-        
-        dist = primitive_primitive_info[:, :, 0]**2+primitive_primitive_info[:, :, 2]**2
-        dist[0, i] = big_pos
-        dist_mask_each_primitive = (dist == jnp.min(dist, axis=1, keepdims=True)).astype(int)
-        dist_index_each_primitive = jnp.argmin(dist, axis=1, keepdims=True)
-
-        dist_mask_padding = jnp.zeros((1, primitive_num))
-        dist_mask_each_primitive_padding = jnp.concatenate([dist_mask_padding, dist_mask_each_primitive], axis=1)
-        dist_mask_list.append(dist_mask_each_primitive_padding)
-
-        nearest_primitive_info = primitive_primitive_info[:, dist_index_each_primitive][0]
-        data = jnp.concatenate([primitive_obs_info, nearest_primitive_info, state[None, None, -args.base_data_size*3:]], axis=-1)
-        trans_data_list.append(data)
-
-    dist_mask = jnp.concatenate(dist_mask_list, axis=1).reshape(batch_size, primitive_num, -1)
-    dist_mask = jnp.concatenate([dist_mask, jnp.zeros((batch_size, primitive_num, primitive_num*2))], axis=1)
-    mask = jnp.where(dist_mask, 1, mask)[None, :, :, :]
-
-    state_base = jnp.concatenate(trans_data_list, axis=1)
-    delay_data_base = jnp.concatenate([delay_data_base, state_base], axis=0)
-
-    random_delay_data_base = delay_data_base[t:t+args.delay_time]
-    random_delay_list = []
-    for i in range(primitive_num):
-        row = random.randint(0, args.delay_time)
-        random_delay_list.append(random_delay_data_base[row][i][None, :])
-    random_delay_data = np.concatenate(random_delay_list)
-    state = jnp.concatenate([state_base, random_delay_data[None, :, :]], axis=1)
-    
-    # normalize
     state = (state - state_mean) / state_std
-
-    return state, delay_data_base, delay_roomba_pos, mask
+    return state

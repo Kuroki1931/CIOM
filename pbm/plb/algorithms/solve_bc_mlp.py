@@ -12,14 +12,14 @@ import numpy as np
 import optax
 import torch
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '../../bc/jax_decision_transformer'))
-from decision_transformer.bc_mlp.model import make_policy_networks
-from decision_transformer.bc_mlp.utils import (NormalTanhDistribution,
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../bc/network'))
+from transformer.bc_mlp.model import make_policy_networks
+from transformer.bc_mlp.utils import (NormalTanhDistribution,
                                                ReplayBuffer, TrainingState,
                                                Transition, evaluate_on_env,
                                                get_d4rl_normalized_score,
                                                load_params, save_params)
-from decision_transformer.pmap import (bcast_local_devices, is_replicated,
+from transformer.pmap import (bcast_local_devices, is_replicated,
                                        synchronize_hosts)
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../..'))
@@ -70,7 +70,7 @@ def get_args():
     parser.add_argument("--num_updates_per_iter", type=int, default=5000)
     parser.add_argument("--policy_save_iters", type=int, default=10)
     parser.add_argument("--rm_normalization", action='store_true', help='Turn off input normalization')
-    parser.add_argument("--policy_params_path", type=str, default='/root/roomba_hack/pbm/bc/jax_decision_transformer/dt_runs/bc_mlpmulti_bc_rope_6/seed_0/22-10-04-09-04-39/model_4000.pt')
+    parser.add_argument("--policy_params_path", type=str, default='/root/roomba_hack/pbm/bc/network/dt_runs/bc_mlpmulti_bc_rope_6/seed_0/22-10-04-09-04-39/model_4000.pt')
     parser.add_argument("--max_devices_per_host", type=int, default=None)
     parser.add_argument('--base_data_size', type=int, default=102)
 
@@ -119,7 +119,7 @@ def main(args):
     num_layers = args.num_layers            # num of layers for MLP policy
 
     # load data from this file
-    dataset_path = f'/root/roomba_hack/pbm/bc/jax_decision_transformer/data/bc_data_all.pkl'
+    dataset_path = f'/root/roomba_hack/pbm/bc/network/data/bc_data_all.pkl'
 
     # saves model and csv in this directory
     log_dir = args.policy_params_path[:-3]

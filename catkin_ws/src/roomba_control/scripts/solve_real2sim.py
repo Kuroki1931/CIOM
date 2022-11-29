@@ -22,12 +22,12 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from nav_msgs.msg import Odometry
 from PIL import Image
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '/root/roomba_hack/pbm/bc/jax_decision_transformer'))
-from decision_transformer.bc_transformer_nearest.model import make_transformers
-from decision_transformer.bc_transformer_nearest.utils import ReplayBuffer, NormalTanhDistribution, TrainingState, Transition
-from decision_transformer.bc_transformer_nearest.utils import evaluate_on_env, get_d4rl_normalized_score, save_params, load_params
-from decision_transformer.bc_transformer_nearest.mask_config import MASK_CONFIG
-from decision_transformer.pmap import bcast_local_devices, synchronize_hosts, is_replicated
+sys.path.append(os.path.join(os.path.dirname(__file__), '/root/roomba_hack/pbm/bc/network'))
+from transformer.bc_transformer_nearest.model import make_transformers
+from transformer.bc_transformer_nearest.utils import ReplayBuffer, NormalTanhDistribution, TrainingState, Transition
+from transformer.bc_transformer_nearest.utils import evaluate_on_env, get_d4rl_normalized_score, save_params, load_params
+from transformer.bc_transformer_nearest.mask_config import MASK_CONFIG
+from transformer.pmap import bcast_local_devices, synchronize_hosts, is_replicated
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '/root/roomba_hack/pbm'))
 from plb.envs import make
@@ -360,7 +360,7 @@ def get_args():
     parser.add_argument("--num_updates_per_iter", type=int, default=500)
     parser.add_argument("--policy_save_iters", type=int, default=10)
     parser.add_argument("--rm_normalization", action='store_true', help='Turn off input normalization')
-    parser.add_argument("--policy_params_path", type=str, default='/root/roomba_hack/pbm/bc/jax_decision_transformer/dt_runs/bc_transformer_nearest_delay_0_multi_bc_rope_6/seed_0/22-10-11-13-09-42/model_3000.pt')
+    parser.add_argument("--policy_params_path", type=str, default='/root/roomba_hack/pbm/bc/network/dt_runs/bc_transformer_nearest_delay_0_multi_bc_rope_6/seed_0/22-10-11-13-09-42/model_3000.pt')
     parser.add_argument("--max_devices_per_host", type=int, default=None)
     parser.add_argument('--base_data_size', type=int, default=102)
     parser.add_argument('--select_layer', type=int, default=2)

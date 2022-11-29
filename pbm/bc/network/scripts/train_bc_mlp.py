@@ -16,13 +16,12 @@ import numpy as np
 import torch
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from decision_transformer.bc_mlp.model import make_policy_networks
-from decision_transformer.bc_mlp.utils import (NormalTanhDistribution,
+from transformer.bc_mlp.model import make_policy_networks
+from transformer.bc_mlp.utils import (NormalTanhDistribution,
                                                ReplayBuffer, TrainingState,
                                                Transition, evaluate_on_env,
-                                               get_d4rl_normalized_score,
                                                save_params)
-from decision_transformer.pmap import (bcast_local_devices, is_replicated,
+from transformer.pmap import (bcast_local_devices, is_replicated,
                                        synchronize_hosts)
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../..'))
@@ -302,7 +301,6 @@ def train(args):
         eval_avg_reward = results['eval/avg_reward']
         eval_avg_ep_len = results['eval/avg_ep_len']
         eval_avg_last_iou = results['eval/avg_last_iou']
-        # eval_d4rl_score = get_d4rl_normalized_score(results['eval/avg_reward'], env_name) * 100
 
         mean_action_loss = np.mean(log_action_losses)
         time_elapsed = str(datetime.now().replace(microsecond=0) - start_time)
@@ -317,7 +315,6 @@ def train(args):
                    "eval avg reward: " + format(eval_avg_reward, ".5f") + '\n' +
                    "eval avg ep len: " + format(eval_avg_ep_len, ".5f") + '\n' +
                    "eval avg last iou: " + format(eval_avg_last_iou, ".5f") + '\n'
-                #    "eval d4rl score: " + format(eval_d4rl_score, ".5f")
                 )
 
         print(log_str)

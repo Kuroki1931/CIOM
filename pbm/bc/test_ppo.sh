@@ -2,7 +2,7 @@
 
 ALGO='action'
 ENV_NAME='multi_bc_rope_6-v'
-POLICY_PARAMS_PATH='/root/roomba_hack/pbm/bc/jax_decision_transformer/dt_runs/bc_multi_bc_rope/seed_0/22-09-13-13-50-48/model_755000.pt'
+POLICY_PARAMS_PATH='/root/roomba_hack/pbm/bc/network/dt_runs/bc_multi_bc_rope/seed_0/22-09-13-13-50-48/model_755000.pt'
 PATH_NAME='../output'
 PICTURE_NAME='pose'
 

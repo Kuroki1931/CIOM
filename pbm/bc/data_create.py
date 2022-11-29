@@ -80,5 +80,5 @@ for path in files:
     print('actsum', np.sum(remake_data['actions']))
     print('goalsum', np.sum(remake_data['goal_state']))
     
-with open(f'/root/roomba_hack/pbm/bc/jax_decision_transformer/data/bc_data.pkl', 'wb') as f:
+with open(f'/root/roomba_hack/pbm/bc/network/data/bc_data.pkl', 'wb') as f:
     pickle.dump(remake_data_list, f)

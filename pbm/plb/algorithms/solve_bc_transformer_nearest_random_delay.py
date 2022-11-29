@@ -15,15 +15,15 @@ from matplotlib.backends.backend_pdf import PdfPages
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from PIL import Image
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '../../bc/jax_decision_transformer'))
-from decision_transformer.bc_transformer_nearest_random_delay.mask_config import \
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../bc/network'))
+from transformer.bc_transformer_nearest_random_delay.mask_config import \
     MASK_CONFIG
-from decision_transformer.bc_transformer_nearest_random_delay.model import \
+from transformer.bc_transformer_nearest_random_delay.model import \
     make_transformers
-from decision_transformer.bc_transformer_nearest_random_delay.utils import (
+from transformer.bc_transformer_nearest_random_delay.utils import (
     NormalTanhDistribution, ReplayBuffer, TrainingState, Transition,
     evaluate_on_env_random_delay, load_params)
-from decision_transformer.pmap import (bcast_local_devices, is_replicated,
+from transformer.pmap import (bcast_local_devices, is_replicated,
                                        synchronize_hosts)
 sys.path.append(os.path.join(os.path.dirname(__file__), '../..'))
 from plb.algorithms.discor.run_sac import train as train_sac
@@ -74,7 +74,7 @@ def get_args():
     parser.add_argument("--num_updates_per_iter", type=int, default=500)
     parser.add_argument("--policy_save_iters", type=int, default=10)
     parser.add_argument("--rm_normalization", action='store_true', help='Turn off input normalization')
-    parser.add_argument("--policy_params_path", type=str, default='/root/roomba_hack/pbm/bc/jax_decision_transformer/dt_runs/bc_transformer_random_delay_10_multi_bc_rope_6/seed_0/22-11-25-09-28-21/model_5000.pt')
+    parser.add_argument("--policy_params_path", type=str, default='/root/roomba_hack/pbm/bc/network/dt_runs/bc_transformer_random_delay_10_multi_bc_rope_6/seed_0/22-11-25-09-28-21/model_5000.pt')
     parser.add_argument("--max_devices_per_host", type=int, default=None)
     parser.add_argument('--base_data_size', type=int, default=102)
     parser.add_argument('--select_layer', type=int, default=2)
@@ -333,7 +333,7 @@ def main(args):
     lr = args.lr                            # learning rate
 
     # load data from this file
-    dataset_path = f'/root/roomba_hack/pbm/bc/jax_decision_transformer/data/bc_data_all.pkl'
+    dataset_path = f'/root/roomba_hack/pbm/bc/network/data/bc_data_all.pkl'
 
     # saves model and csv in this directory
     log_dir = args.policy_params_path[:-3]
@@ -359,7 +359,7 @@ def main(args):
     mask_dim = primitive_num * 2
     trans_dim = state_dim + act_dim + mask_dim
 
-    with open('/root/roomba_hack/pbm/bc/jax_decision_transformer/data/all_data_random_delay_0_10.pickle', 'rb') as f: 
+    with open('/root/roomba_hack/pbm/bc/network/data/all_data_random_delay_0_10.pickle', 'rb') as f: 
         replay_buffer_data = pickle.load(f)
     
     # used for input normalization

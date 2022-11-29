@@ -17,14 +17,12 @@ import torch
 from matplotlib.backends.backend_pdf import PdfPages
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from decision_transformer.bc_transformer_nearest_random_delay.mask_config import \
-    MASK_CONFIG
-from decision_transformer.bc_transformer_nearest_random_delay.model import \
-    make_transformers
-from decision_transformer.bc_transformer_nearest_random_delay.utils import (
+from transformer.bc_transformer_nearest.mask_config import MASK_CONFIG
+from transformer.bc_transformer_nearest.model import make_transformers
+from transformer.bc_transformer_nearest.utils import (
     NormalTanhDistribution, ReplayBuffer, TrainingState, Transition,
-    evaluate_on_env_random_delay, get_d4rl_normalized_score, save_params)
-from decision_transformer.pmap import (bcast_local_devices, is_replicated,
+    evaluate_on_env, get_d4rl_normalized_score, save_params)
+from transformer.pmap import (bcast_local_devices, is_replicated,
                                        synchronize_hosts)
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../..'))
@@ -100,8 +98,7 @@ def train(args):
     start_time = datetime.now().replace(microsecond=0)
     start_time_str = start_time.strftime("%y-%m-%d-%H-%M-%S")
 
-    prefix = f"bc_transformer_random_delay_{args.delay_time}_" + args.task_name
-    # prefix = f"bc_transformer_all_delay_{args.delay_time}_" + args.task_name
+    prefix = f"bc_transformer_nearest_{args.delay_time}_" + args.task_name
 
     log_dir = os.path.join(log_dir, prefix, f'seed_{seed}', start_time_str)
     if not os.path.exists(log_dir):
@@ -152,13 +149,11 @@ def train(args):
     
     # apply padding
     replay_buffer_data = []
-    c = 0
     for traj in trajectories:
-        print(c, len(trajectories))
-        c+=1
         states = jnp.array(traj['observations'])
 
         actions = jnp.array(traj['actions'])
+        
         # order data
         trans_data_list = []
         chunk_size = args.base_data_size*3*2+primitive_num*3
@@ -169,26 +164,20 @@ def train(args):
             data = jnp.concatenate([primitive_obs_info, primitive_primitive_info, states[:, None, -args.base_data_size*3:]], axis=-1)
             trans_data_list.append(data)
         
-        ## delay data
-        action_data_base = actions[:, None, :].reshape(actions.shape[0], -1, act_dim)
-        action_padding = jnp.zeros((args.delay_time, action_data_base.shape[1], action_data_base.shape[2]))
-        action_data_padding = jnp.concatenate([action_padding, action_data_base], axis=0)[0:-args.delay_time, :, :]
-        
+        # delay data
         trans_data_base = jnp.concatenate(trans_data_list, axis=1)
-        trans_padding = jnp.repeat(trans_data_base[0, :][None, :, :], args.delay_time, axis=0)
-        trans_data_padding = jnp.concatenate([trans_padding, trans_data_base], axis=0)
-        # random delay 0-10 steps
-        trans_delay_state_list = []
-        for t in range(trans_data_base.shape[0]):
-            random_delay_data_base = trans_data_padding[t:t+args.delay_time]
-            random_delay_list = []
-            for i in range(primitive_num):
-                row = random.randint(0, args.delay_time)
-                random_delay_list.append(random_delay_data_base[row][i][None, :])
-            random_delay_data = np.concatenate(random_delay_list)[None, :]
-            trans_delay_state_list.append(random_delay_data)
-        trans_delay = np.concatenate(trans_delay_state_list)
-        trans_data = jnp.concatenate([trans_data_base, trans_delay], axis=1)
+        action_data_base = actions[:, None, :].reshape(actions.shape[0], -1, act_dim)
+        if args.delay_time > 0:
+            trans_padding = jnp.repeat(trans_data_base[0, :][None, :, :], args.delay_time, axis=0)
+            trans_data_padding = jnp.concatenate([trans_padding, trans_data_base], axis=0)[0:-args.delay_time, :, :]
+            action_padding = jnp.zeros((args.delay_time, action_data_base.shape[1], action_data_base.shape[2]))
+            action_data_padding = jnp.concatenate([action_padding, action_data_base], axis=0)[0:-args.delay_time, :, :]
+        elif args.delay_time == 0:
+            trans_data_padding = trans_data_base.copy()
+            action_data_padding = action_data_base.copy()
+        else:
+            raise NotImplementedError
+        trans_data = jnp.concatenate([trans_data_base, trans_data_padding], axis=1)
         action_data = jnp.concatenate([action_data_base, action_data_padding], axis=1)
 
         # creating mask
@@ -223,10 +212,8 @@ def train(args):
         
         assert trans_dim == trans_data.shape[-1], trans_data.shape
         replay_buffer_data.append(trans_data)
-
-    # with open('/root/roomba_hack/pbm/bc/jax_decision_transformer/data/all_data_random_delay_0_10.pickle', 'wb') as f: 
-    #     pickle.dump(replay_buffer_data, f)
-    # with open('/root/roomba_hack/pbm/bc/jax_decision_transformer/data/all_data_random_delay_0_10.pickle', 'rb') as f: 
+    
+    # with open('/root/roomba_hack/pbm/bc/network/data/all_data_delay_0.pickle', 'rb') as f: 
     #     replay_buffer_data = pickle.load(f)
 
     # used for input normalization
@@ -368,19 +355,19 @@ def train(args):
         jax.tree_map(lambda x: x.block_until_ready(), training_metrics)
         log_action_losses.append(training_metrics['actor_loss'])
   
-        results, actions, attn_weights_list, imgs = evaluate_on_env_random_delay(policy_model,
-                                                                                training_state.policy_params,
-                                                                                parametric_action_distribution,
-                                                                                env,
-                                                                                None,
-                                                                                num_eval_ep,
-                                                                                max_eval_ep_len,
-                                                                                state_mean,
-                                                                                state_std,
-                                                                                args,
-                                                                                log_dir,
-                                                                                i_train_iter,
-                                                                                save_gif=True)
+        results, actions, attn_weights_list, imgs = evaluate_on_env(policy_model,
+                                training_state.policy_params,
+                                parametric_action_distribution,
+                                env,
+                                None,
+                                num_eval_ep,
+                                max_eval_ep_len,
+                                state_mean,
+                                state_std,
+                                args,
+                                log_dir,
+                                i_train_iter,
+                                save_gif=True)
 
         eval_avg_reward = results['eval/avg_reward']
         eval_avg_ep_len = results['eval/avg_ep_len']
@@ -476,7 +463,7 @@ if __name__ == "__main__":
     parser.add_argument("--policy_params_path", type=str, default='/')
     parser.add_argument('--max_devices_per_host', type=int, default=None)
     parser.add_argument('--base_data_size', type=int, default=102)
-    parser.add_argument('--delay_time', type=int, default=10)
+    parser.add_argument('--delay_time', type=int, default=0)
 
     args = parser.parse_args()
 

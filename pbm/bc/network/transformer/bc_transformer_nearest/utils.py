@@ -14,7 +14,7 @@ import jax.numpy as jnp
 import numpy as np
 
 from typing import Any
-from decision_transformer.d4rl_infos import REF_MIN_SCORE, REF_MAX_SCORE, D4RL_DATASET_STATS
+from transformer.d4rl_infos import REF_MIN_SCORE, REF_MAX_SCORE, D4RL_DATASET_STATS
 
 from PIL import Image
 

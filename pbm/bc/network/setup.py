@@ -3,7 +3,7 @@ from setuptools import setup
 
 install_requires = []
 
-setup(name='decision_transformer',
+setup(name='transformer',
       version='0.0.1',
       description='JAX-based Decision Transformer',
       license='MIT License',
