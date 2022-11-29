@@ -1,5 +1,8 @@
 
 # Collective Intelligence for Object Manipulation with Mobile Robots
+[Project page](https://sites.google.com/view/collectiveintelligenceforobjec/home)
+[Project Page] [arXiv]
+
 
 ## generating experts
 ### For gradient base difftaichi  
