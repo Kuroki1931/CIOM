@@ -27,5 +27,5 @@ CUDA_VISIBLE_DEVICES=0,1 python3 -m plb.algorithms.solve_bc_mlp --env_name multi
 rosrun roomba_control solve.py --env_name multi_bc_rope_{n}-v1 --real_demo  
 
 # Acknowledgements
-Our physics simulation is based on [PlasticineLab](https://github.com/hzaskywalker/PlasticineLab).
+Our physics simulation is based on [PlasticineLab](https://github.com/hzaskywalker/PlasticineLab).  
 Our ros system refer to [roomba hack](https://github.com/matsuolab/roomba_hack).
