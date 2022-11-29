@@ -1,7 +1,7 @@
 
 # Collective Intelligence for Object Manipulation with Mobile Robots
-[Project page](https://sites.google.com/view/collectiveintelligenceforobjec/home)
-[arXiv](https://arxiv.org/pdf/2211.15136.pdf)
+[[Project page]](https://sites.google.com/view/collectiveintelligenceforobjec/home)
+[[arXiv]](https://arxiv.org/pdf/2211.15136.pdf)
 
 
 ## generating experts
