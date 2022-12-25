@@ -2,7 +2,7 @@
 # Collective Intelligence for Object Manipulation with Mobile Robots  
 So Kuroki, Tatsuya Matsushima, Jumpei Arima, Yutaka Matsuo, Shixiang Shane Gu, and Yujin Tang
 
-The University of Tokyo, Japan, Matsuo Institute, Japan, Google Research, Brain Team
+The University of Tokyo, Japan, Matsuo Institute, Japan, Google Research, Brain Team  
 [[Project page]](https://sites.google.com/view/collectiveintelligenceforobjec/home)
 [[arXiv]](https://arxiv.org/pdf/2211.15136.pdf)
 
