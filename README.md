@@ -10,8 +10,6 @@ The University of Tokyo, Japan, Matsuo Institute, Japan, Google Research, Brain 
 ## generating experts
 ### For gradient base difftaichi  
 CUDA_VISIBLE_DEVICES=0 python3 -m plb.algorithms.solve --algo action --env_name multi_bc_rope-v1  
-### For PPO 
-CUDA_VISIBLE_DEVICES=0 python3 -m plb.algorithms.solve --algo ppo --env_name multi_bc_rope-v1  
 
 ## creating observation
 python3 data_create.py
