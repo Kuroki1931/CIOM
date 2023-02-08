@@ -3,7 +3,7 @@
 So Kuroki, Tatsuya Matsushima, Jumpei Arima, Yutaka Matsuo, Shixiang Shane Gu, and Yujin Tang
 
 The University of Tokyo, Japan, Matsuo Institute, Japan, Google Research, Brain Team  
-[[Project page]](https://sites.google.com/view/collective-intelligence-push/home)
+[[Project page]](https://sites.google.com/view/ciom/home)
 [[arXiv]](https://arxiv.org/pdf/2211.15136.pdf)
 
 
