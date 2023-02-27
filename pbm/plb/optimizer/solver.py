@@ -135,7 +135,7 @@ def solve_action(env, path, logger, args, actions=None):
     frames = []
     for i in range(len(action)):
         action_list.append(action[i])
-        current_obs = list(env.get_obs(i))
+        current_obs = list(env.get_obs(0))
         obs, r, done, loss_info = env.step(action[i])
         if i % 10 == 0 or i+1 == len(action):
             img = env.render(mode='rgb_array')
