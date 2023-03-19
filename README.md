@@ -3,6 +3,7 @@
 So Kuroki, Tatsuya Matsushima, Jumpei Arima, Hiroki Furuta, Yutaka Matsuo, Shixiang Shane Gu, and Yujin Tang
 
 The University of Tokyo, Japan, Matsuo Institute, Japan, Google Research, Brain Team  
+IEEE Robotics and Automation Letters (RA-L) with IROS
 [[Project page]](https://sites.google.com/view/ciom/home)
 [[arXiv]](https://arxiv.org/pdf/2211.15136.pdf)
 
