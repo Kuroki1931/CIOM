@@ -5,7 +5,7 @@ So Kuroki, Tatsuya Matsushima, Jumpei Arima, Hiroki Furuta, Yutaka Matsuo, Shixi
 The University of Tokyo, Japan, Matsuo Institute, Japan, Google Research, Brain Team  
 IEEE Robotics and Automation Letters (RA-L) with IROS  
 [[Project page]](https://sites.google.com/view/ciom/home)
-[[PDF]](https://ieeexplore.ieee.org/document/8758904)
+[[PDF]](https://ieeexplore.ieee.org/document/10080994)
 
 
 ## generating experts
