@@ -1,6 +1,6 @@
 
 # Collective Intelligence for 2D push Manipulations with Mobile Robots  
-[So Kuroki]([https://sites.google.com/view/ciom/home](https://sites.google.com/view/sokuroki/home)), Tatsuya Matsushima, Jumpei Arima, Hiroki Furuta, Yutaka Matsuo, Shixiang Shane Gu, and Yujin Tang
+[So Kuroki](https://sites.google.com/view/sokuroki/home), Tatsuya Matsushima, Jumpei Arima, Hiroki Furuta, Yutaka Matsuo, Shixiang Shane Gu, and Yujin Tang
 
 The University of Tokyo, Japan, Matsuo Institute, Japan, Google Research, Brain Team  
 IEEE Robotics and Automation Letters (RA-L) with IROS  
